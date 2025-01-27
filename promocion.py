@@ -112,8 +112,6 @@ def calcular_descuentos(df, n):
     return seleccionados
 
 # Función para generar descripción con IA
-
-
 def generar_descripcion(productos):
     return 'descripcion generada por IA openAI que está comentado para no consumir limites'
 
@@ -121,6 +119,8 @@ def generar_descripcion(productos):
 # Función para generar imagen con IA
 def generar_imagen(descripcion):
     return 'url de imagen generada por IA'
+
+
 
 
 @app.route('/lista-productos', methods=['GET'])
