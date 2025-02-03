@@ -161,6 +161,32 @@ def obtener_descripcion():
         return jsonify({"error": "Formato JSON inválido"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@app.route('/producto-descuento', methods=['GET'])
+def obtener_producto_descuento():
+    """Endpoint que devuelve un producto con descuento basado en la categoría proporcionada."""
+    try:
+        id_categoria = request.args.get('idCategoria')
+        if not id_categoria:
+            return jsonify({'error': 'Se requiere el parámetro idCategoria'}), 400
+
+        df = obtener_productos()  # Obtiene todos los productos
+        df_categoria = df[df['IdCategoria'] == int(id_categoria)]  # Filtra por categoría
+        
+        if df_categoria.empty:
+            return jsonify({'error': 'No hay productos disponibles para esta categoría'}), 404
+
+        productos_seleccionados = calcular_descuentos(df_categoria, 1)  # Selecciona un producto con descuento
+        
+        if not productos_seleccionados:
+            return jsonify({'error': 'No se pudo calcular el descuento para esta categoría'}), 404
+
+        return jsonify({'productoSeleccionado': productos_seleccionados[0]})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
