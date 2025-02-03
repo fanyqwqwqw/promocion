@@ -182,10 +182,11 @@ def obtener_producto_descuento():
         if not productos_seleccionados:
             return jsonify({'error': 'No se pudo calcular el descuento para esta categoría'}), 404
 
-        return jsonify({'productoSeleccionado': productos_seleccionados[0]})
+        return jsonify({'productosSeleccionados': [productos_seleccionados[0]]})
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 if __name__ == '__main__':
